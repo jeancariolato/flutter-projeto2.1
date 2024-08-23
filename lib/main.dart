@@ -14,6 +14,8 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   var _cont = 0;
 
+  final TextEditingController _editController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,20 +27,38 @@ class _MyPageState extends State<MyPage> {
             title: Text("ECO"),
             backgroundColor: Colors.green,
           ),
-          body: Center(
-            child: Container(
-              padding: EdgeInsets.all(40),
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.green)),
-              child: Text(
-                "$_cont",
-                style: TextStyle(fontSize: 30.0, color: Colors.green),
+          body: Column(
+            children: [
+              TextField(
+                controller: _editController,
+                decoration: InputDecoration(labelText: "Nome"),
               ),
-            ),
+              ElevatedButton(
+                  onPressed: () {
+                    String nome = _editController.text;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("$nome"),
+                      action: SnackBarAction(label: "Ok", onPressed: () {}),
+                    ));
+                  },
+                  child: Text("Enviar")),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.all(40),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.green)),
+                  child: Text(
+                    "$_cont",
+                    style: TextStyle(fontSize: 30.0, color: Colors.green),
+                  ),
+                ),
+              ),
+            ],
           ),
           floatingActionButton: FloatingActionButton(
+            
             child: Icon(
-              Icons.upload_file_outlined,
+              Icons.bolt,
               color: Colors.white,
             ),
             shape: CircleBorder(),
@@ -49,7 +69,10 @@ class _MyPageState extends State<MyPage> {
               });
               print(_cont);
             },
-          )),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          ),
+          
     );
   }
 }
